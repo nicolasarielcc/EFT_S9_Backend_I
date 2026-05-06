@@ -1,0 +1,2 @@
+-- init.sql
+-- Agrega aquí tus sentencias SQL de inicialización
