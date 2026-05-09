@@ -16,8 +16,8 @@ import org.springframework.context.ApplicationEvent;
  * De esta manera, se logra una comunicación eficiente y desacoplada entre los microservicios, permitiendo que el sistema sea más 
  * escalable y mantenible.
  * 
- * En resumen, UsuarioRegistradoEvent es un componente clave para facilitar la integración entre los microservicios de Usuarios 
- * y Notificaciones, asegurando que los nuevos usuarios reciban una experiencia de bienvenida adecuada a través de correos electrónicos 
+ * En resumen, UsuarioRegistradoEvent es un componente para facilitar la integración entre los microservicios de Usuarios Notificaciones,
+ * asegurando que los nuevos usuarios reciban una experiencia de bienvenida adecuada a través de correos electrónicos 
  * personalizados.
  */
 
