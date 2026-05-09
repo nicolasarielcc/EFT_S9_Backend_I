@@ -53,8 +53,8 @@ src/main/java/com/duoc/LearningPlatform/
 Una vez que la aplicación esté corriendo, puedes inspeccionar las tablas generadas automáticamente ingresando a:
 * **URL:** `http://localhost:8080/h2-console`
 * **JDBC URL:** `jdbc:h2:mem:cursodb`
-* **Username:** `sa`
-* **Password:** *(dejar en blanco)*
+* **Username:** `adminEFT`
+* **Password:** `EFT2026_backend_I`
 
 ## 📡 Endpoints Principales (Ejemplos de Pruebas)
 
