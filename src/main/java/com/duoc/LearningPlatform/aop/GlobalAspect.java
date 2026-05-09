@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Aspect // Indica que esta clase es un Aspecto de AOP (Programación Orientada a Aspectos)
 @Component
 @Slf4j
+// Este aspecto se encargará de interceptar las llamadas a los métodos de los controladores para medir su tiempo de ejecución y registrar logs
 public class GlobalAspect {
 
     // Define DÓNDE queremos interceptar: "En cualquier método dentro del paquete controller"
