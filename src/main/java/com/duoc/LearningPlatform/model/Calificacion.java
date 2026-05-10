@@ -11,23 +11,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "pagos")
-public class Pago {
+@Table(name = "calificaciones")
+public class Calificacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private Long idInscripcion;
+    private Long idEvaluacion;
 
     @Column(nullable = false)
-    private Integer monto;
+    private Long idEstudiante;
 
     @Column(nullable = false)
-    private String metodoPago; // TARJETA, TRANSFERENCIA
+    private Double nota;
 
-    @Column(nullable = false)
-    private String estado; // PENDIENTE_CONFIRMACION, APROBADO, RECHAZADO, REEMBOLSADO
-
-    private String referenciaBanco; // Código de transacción (TXN...)
+    private String feedback;
 }
