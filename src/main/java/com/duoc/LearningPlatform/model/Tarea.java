@@ -5,16 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "inscripciones")
-public class Inscripcion {
-
+@Table(name = "tareas")
+public class Tarea {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,11 +22,11 @@ public class Inscripcion {
     private Long idCurso;
 
     @Column(nullable = false)
-    private Long idEstudiante;
+    private String titulo;
 
     @Column(nullable = false)
-    private String estado; // PENDIENTE_PAGO, ACTIVA, COMPLETADA, CANCELADA
+    private String descripcion;
 
     @Column(nullable = false)
-    private LocalDateTime fechaInscripcion;
+    private LocalDate fechaEntrega;
 }
