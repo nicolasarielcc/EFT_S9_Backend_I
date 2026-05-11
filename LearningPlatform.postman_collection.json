@@ -1,0 +1,731 @@
+{
+  "info": {
+    "_postman_id": "learning-platform-api",
+    "name": "Learning Platform API - CRUD Usuarios y Cursos",
+    "description": "Colección de pruebas CRUD con ejemplos de respuestas personalizadas para Usuarios y Cursos",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Usuarios - Operaciones CRUD",
+      "item": [
+        {
+          "name": "✅ GET - Obtener todos los usuarios",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios"
+              ]
+            },
+            "description": "Obtiene la lista de todos los usuarios registrados en el sistema. Respuesta exitosa (200)."
+          },
+          "response": []
+        },
+        {
+          "name": "✅ GET - Obtener usuario por ID (Existe)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios",
+                "1"
+              ]
+            },
+            "description": "Obtiene los detalles de un usuario existente. Respuesta exitosa (200)."
+          },
+          "response": []
+        },
+        {
+          "name": "❌ GET - Obtener usuario por ID (No existe)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios",
+                "9999"
+              ]
+            },
+            "description": "Intenta obtener un usuario que no existe. Error personalizado (404): 'No se encontró el usuario solicitado. Verifique el ID proporcionado y vuelva a intentar.'"
+          },
+          "response": []
+        },
+        {
+          "name": "✅ POST - Crear estudiante nuevo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Carlos Mendez\",\n  \"correo\": \"carlos.mendez@estudiante.cl\",\n  \"contrasena\": \"SecurePass2024!\",\n  \"rol\": \"ESTUDIANTE\",\n  \"estado\": \"ACTIVO\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios"
+              ]
+            },
+            "description": "Crea un nuevo usuario con rol ESTUDIANTE. Respuesta exitosa (201) con los datos del usuario creado."
+          },
+          "response": []
+        },
+        {
+          "name": "✅ POST - Crear académico",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Dra. Patricia Gómez\",\n  \"correo\": \"patricia.gomez@academico.cl\",\n  \"contrasena\": \"AcademicPass123!\",\n  \"rol\": \"ACADEMICO\",\n  \"estado\": \"ACTIVO\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios"
+              ]
+            },
+            "description": "Crea un nuevo usuario con rol ACADEMICO. Respuesta exitosa (201)."
+          },
+          "response": []
+        },
+        {
+          "name": "❌ POST - Validación: Correo inválido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Usuario Prueba\",\n  \"correo\": \"correo_invalido\",\n  \"contrasena\": \"password123\",\n  \"rol\": \"ESTUDIANTE\",\n  \"estado\": \"ACTIVO\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios"
+              ]
+            },
+            "description": "Error de validación (400): Campo 'correo': Debe proporcionar un formato de correo válido"
+          },
+          "response": []
+        },
+        {
+          "name": "❌ POST - Validación: Contraseña muy corta",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Usuario Test\",\n  \"correo\": \"test@example.com\",\n  \"contrasena\": \"short\",\n  \"rol\": \"ESTUDIANTE\",\n  \"estado\": \"ACTIVO\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios"
+              ]
+            },
+            "description": "Error de validación (400): Campo 'contrasena': La contraseña debe tener al menos 8 caracteres"
+          },
+          "response": []
+        },
+        {
+          "name": "✅ PUT - Actualizar usuario (cambiar rol)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Carlos Mendez\",\n  \"correo\": \"carlos.mendez.updated@estudiante.cl\",\n  \"contrasena\": \"NewSecurePass2024!\",\n  \"rol\": \"ACADEMICO\",\n  \"estado\": \"ACTIVO\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios",
+                "1"
+              ]
+            },
+            "description": "Actualiza un usuario existente. En este ejemplo, se cambia el rol de ESTUDIANTE a ACADEMICO. Respuesta exitosa (200)."
+          },
+          "response": []
+        },
+        {
+          "name": "❌ PUT - Actualizar usuario que no existe",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Usuario Fantasma\",\n  \"correo\": \"fantasma@example.com\",\n  \"contrasena\": \"password123\",\n  \"rol\": \"ESTUDIANTE\",\n  \"estado\": \"ACTIVO\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios",
+                "9999"
+              ]
+            },
+            "description": "Error (404): 'No se puede actualizar. El usuario con ID 9999 no existe en el sistema.'"
+          },
+          "response": []
+        },
+        {
+          "name": "✅ DELETE - Eliminar usuario",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios",
+                "1"
+              ]
+            },
+            "description": "Elimina un usuario del sistema. Respuesta exitosa (204) sin contenido."
+          },
+          "response": []
+        },
+        {
+          "name": "❌ DELETE - Eliminar usuario que no existe",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios",
+                "9999"
+              ]
+            },
+            "description": "Error (404): 'No se puede eliminar. El usuario con ID 9999 no existe en el sistema.'"
+          },
+          "response": []
+        }
+      ],
+      "description": "Operaciones CRUD para gestionar usuarios con ejemplos de casos exitosos y errores"
+    },
+    {
+      "name": "Cursos - Operaciones CRUD",
+      "item": [
+        {
+          "name": "✅ GET - Obtener todos los cursos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/cursos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cursos"
+              ]
+            },
+            "description": "Obtiene la lista de todos los cursos disponibles en la plataforma. Respuesta exitosa (200)."
+          },
+          "response": []
+        },
+        {
+          "name": "✅ GET - Obtener curso por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/cursos/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cursos",
+                "1"
+              ]
+            },
+            "description": "Obtiene los detalles de un curso específico. Respuesta exitosa (200)."
+          },
+          "response": []
+        },
+        {
+          "name": "❌ GET - Obtener curso que no existe",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/cursos/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cursos",
+                "9999"
+              ]
+            },
+            "description": "Error (404): 'No se encontró el curso solicitado. Verifique el ID proporcionado y vuelva a intentar.'"
+          },
+          "response": []
+        },
+        {
+          "name": "✅ POST - Crear curso de Programación",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Python Avanzado para Machine Learning\",\n  \"descripcion\": \"Aprende técnicas avanzadas de Python para implementar modelos de machine learning en producción\",\n  \"categoria\": \"Programación\",\n  \"precio\": 199,\n  \"cupos\": 25,\n  \"estado\": \"ACTIVO\",\n  \"idAcademico\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cursos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cursos"
+              ]
+            },
+            "description": "Crea un nuevo curso de programación. Respuesta exitosa (201)."
+          },
+          "response": []
+        },
+        {
+          "name": "✅ POST - Crear curso de Bases de Datos",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"MySQL y Optimización de Consultas\",\n  \"descripcion\": \"Domina las mejores prácticas en diseño de bases de datos y optimización de performance en MySQL\",\n  \"categoria\": \"Bases de Datos\",\n  \"precio\": 149,\n  \"cupos\": 30,\n  \"estado\": \"ACTIVO\",\n  \"idAcademico\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cursos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cursos"
+              ]
+            },
+            "description": "Crea un nuevo curso de bases de datos. Respuesta exitosa (201)."
+          },
+          "response": []
+        },
+        {
+          "name": "✅ POST - Crear curso de Web Development",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"React + TypeScript - Del Básico al Avanzado\",\n  \"descripcion\": \"Conviértete en un desarrollador React profesional con TypeScript, hooks y testing\",\n  \"categoria\": \"Desarrollo Web\",\n  \"precio\": 179,\n  \"cupos\": 40,\n  \"estado\": \"ACTIVO\",\n  \"idAcademico\": 4\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cursos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cursos"
+              ]
+            },
+            "description": "Crea un nuevo curso de desarrollo web. Respuesta exitosa (201)."
+          },
+          "response": []
+        },
+        {
+          "name": "❌ POST - Validación: Precio negativo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Curso inválido\",\n  \"descripcion\": \"Descripción\",\n  \"categoria\": \"Programación\",\n  \"precio\": -50,\n  \"cupos\": 20,\n  \"estado\": \"ACTIVO\",\n  \"idAcademico\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cursos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cursos"
+              ]
+            },
+            "description": "Error de validación (400): Campo 'precio': El precio no puede ser negativo"
+          },
+          "response": []
+        },
+        {
+          "name": "❌ POST - Validación: Cupos insuficientes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Curso Test\",\n  \"descripcion\": \"Descripción\",\n  \"categoria\": \"Programación\",\n  \"precio\": 99,\n  \"cupos\": 0,\n  \"estado\": \"ACTIVO\",\n  \"idAcademico\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cursos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cursos"
+              ]
+            },
+            "description": "Error de validación (400): Campo 'cupos': Debe haber al menos 1 cupo"
+          },
+          "response": []
+        },
+        {
+          "name": "✅ PUT - Actualizar curso (reducir precio)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Python Avanzado para Machine Learning - Promoción\",\n  \"descripcion\": \"Aprende técnicas avanzadas de Python para implementar modelos de machine learning en producción - DESCUENTO ESPECIAL\",\n  \"categoria\": \"Programación\",\n  \"precio\": 99,\n  \"cupos\": 15,\n  \"estado\": \"ACTIVO\",\n  \"idAcademico\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cursos/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cursos",
+                "1"
+              ]
+            },
+            "description": "Actualiza un curso existente. En este ejemplo, se reduce el precio de $199 a $99 por promoción. Respuesta exitosa (200)."
+          },
+          "response": []
+        },
+        {
+          "name": "✅ PUT - Actualizar curso (cambiar estado)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Python Avanzado para Machine Learning\",\n  \"descripcion\": \"Aprende técnicas avanzadas de Python para implementar modelos de machine learning en producción\",\n  \"categoria\": \"Programación\",\n  \"precio\": 199,\n  \"cupos\": 0,\n  \"estado\": \"INACTIVO\",\n  \"idAcademico\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cursos/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cursos",
+                "1"
+              ]
+            },
+            "description": "Actualiza un curso para marcarlo como INACTIVO cuando no hay más cupos. Respuesta exitosa (200)."
+          },
+          "response": []
+        },
+        {
+          "name": "❌ PUT - Actualizar curso que no existe",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Curso Fantasma\",\n  \"descripcion\": \"No existe\",\n  \"categoria\": \"Fantasía\",\n  \"precio\": 0,\n  \"cupos\": 0,\n  \"estado\": \"ACTIVO\",\n  \"idAcademico\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cursos/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cursos",
+                "9999"
+              ]
+            },
+            "description": "Error (404): 'No se puede actualizar. El curso con ID 9999 no existe en el sistema.'"
+          },
+          "response": []
+        },
+        {
+          "name": "✅ DELETE - Eliminar curso",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/cursos/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cursos",
+                "1"
+              ]
+            },
+            "description": "Elimina un curso de la plataforma. Respuesta exitosa (204) sin contenido."
+          },
+          "response": []
+        },
+        {
+          "name": "❌ DELETE - Eliminar curso que no existe",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/cursos/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cursos",
+                "9999"
+              ]
+            },
+            "description": "Error (404): 'No se puede eliminar. El curso con ID 9999 no existe en el sistema.'"
+          },
+          "response": []
+        }
+      ],
+      "description": "Operaciones CRUD para gestionar cursos con ejemplos de casos exitosos y errores"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string",
+      "description": "URL base de la API. Por defecto apunta al servidor local en el puerto 8080"
+    }
+  ]
+}
