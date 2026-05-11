@@ -32,23 +32,33 @@ public class CursoService {
 
     @Transactional(readOnly = true)
     public CursoResponseDTO obtenerPorId(Long id) {
+        log.info("Consultando curso con ID: {}", id);
         Curso curso = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Curso no encontrado con ID: " + id));
+                .orElseThrow(() -> {
+                    log.error("Curso con ID {} no encontrado en la base de datos", id);
+                    return new ResourceNotFoundException(
+                        String.format("Curso no encontrado. El ID '%d' no corresponde a ningún curso registrado en la plataforma.", id)
+                    );
+                });
+        log.info("Curso con ID {} consultado exitosamente - Nombre: {} - Categoría: {}", id, curso.getNombre(), curso.getCategoria());
         return mapper.toResponse(curso);
     }
 
     @Transactional
     public CursoResponseDTO crear(CursoRequestDTO request) {
-        log.info("Creando nuevo curso: {}", request.getNombre());
+        log.info("Creando nuevo curso: {} - Categoría: {} - Precio: ${}", request.getNombre(), request.getCategoria(), request.getPrecio());
         Curso guardado = repository.save(mapper.toEntity(request));
-        log.info("Curso creado exitosamente con ID: {}", guardado.getId());
+        log.info("Curso creado exitosamente con ID: {} - Cupos disponibles: {} - Creador: ID {}", guardado.getId(), guardado.getCupos(), guardado.getIdAcademico());
         return mapper.toResponse(guardado);
     }
 
     @Transactional
     public CursoResponseDTO actualizar(Long id, CursoRequestDTO request) {
+        log.info("Actualizando curso con ID: {} - Nuevo nombre: {}", id, request.getNombre());
         Curso existente = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Curso no encontrado con ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                    String.format("No se puede actualizar. El curso con ID '%d' no existe en el sistema.", id)
+                ));
 
         existente.setNombre(request.getNombre());
         existente.setDescripcion(request.getDescripcion());
@@ -58,15 +68,21 @@ public class CursoService {
         existente.setEstado(request.getEstado());
         existente.setIdAcademico(request.getIdAcademico());
 
-        return mapper.toResponse(repository.save(existente));
+        Curso actualizado = repository.save(existente);
+        log.info("Curso ID {} actualizado exitosamente - Nuevo estado: {}", id, actualizado.getEstado());
+        return mapper.toResponse(actualizado);
     }
 
     @Transactional
     public void eliminar(Long id) {
+        log.info("Intentando eliminar curso con ID: {}", id);
         if (!repository.existsById(id)) {
-            throw new ResourceNotFoundException("Curso no encontrado con ID: " + id);
+            log.error("No se puede eliminar. Curso con ID {} no existe", id);
+            throw new ResourceNotFoundException(
+                String.format("No se puede eliminar. El curso con ID '%d' no existe en el sistema.", id)
+            );
         }
         repository.deleteById(id);
-        log.info("Curso con ID {} eliminado", id);
+        log.info("Curso con ID {} eliminado correctamente de la plataforma", id);
     }
 }

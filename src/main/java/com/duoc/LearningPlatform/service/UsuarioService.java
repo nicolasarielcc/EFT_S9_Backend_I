@@ -52,9 +52,12 @@ public class UsuarioService {
         log.info("Consultando usuario con ID: {}", id);
         Usuario usuario = repository.findById(id)
                 .orElseThrow(() -> {
-                    log.error("Usuario con ID {} no encontrado", id);
-                    return new ResourceNotFoundException("Usuario no encontrado con el ID: " + id);
+                    log.error("Usuario con ID {} no encontrado en la base de datos", id);
+                    return new ResourceNotFoundException(
+                        String.format("Usuario no encontrado. El ID '%d' no corresponde a ningún usuario registrado en el sistema.", id)
+                    );
                 });
+        log.info("Usuario con ID {} consultado exitosamente - Correo: {}", id, usuario.getCorreo());
         return mapper.toResponse(usuario);
     }
 
@@ -70,7 +73,7 @@ public class UsuarioService {
         entidad.setContrasena(hash);
         
         Usuario guardado = repository.save(entidad);
-        log.info("Usuario creado exitosamente con ID: {}", guardado.getId());
+        log.info("Usuario creado exitosamente con ID: {} - Nombre: {} - Rol: {}", guardado.getId(), guardado.getNombre(), guardado.getRol());
 
         /*
         COMUNICACIÓN ASINCRÓNICA (SIMULACIÓN DE MESSAGE BROKER):
@@ -86,9 +89,11 @@ public class UsuarioService {
     // Método para actualizar un usuario existente, verificando su existencia y aplicando cambios según el request
     @Transactional
     public UsuarioResponseDTO actualizar(Long id, UsuarioRequestDTO request) {
-        log.info("Actualizando usuario con ID: {}", id);
+        log.info("Actualizando usuario con ID: {} - Nuevo correo: {}", id, request.getCorreo());
         Usuario usuarioExistente = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con el ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                    String.format("No se puede actualizar. El usuario con ID '%d' no existe en el sistema.", id)
+                ));
 
         usuarioExistente.setNombre(request.getNombre());
         usuarioExistente.setCorreo(request.getCorreo());
@@ -98,10 +103,11 @@ public class UsuarioService {
         // Solo reencripta si se envía una contraseña nueva (y no un hash existente)
         if (request.getContrasena() != null && !request.getContrasena().isEmpty() && !request.getContrasena().startsWith("$2a$")) {
             usuarioExistente.setContrasena(passwordEncoder.encode(request.getContrasena()));
+            log.info("Contraseña del usuario ID {} actualizada con éxito", id);
         }
 
         Usuario actualizado = repository.save(usuarioExistente);
-        log.info("Usuario actualizado exitosamente");
+        log.info("Usuario ID {} actualizado exitosamente - Nombre: {} - Rol: {}", id, actualizado.getNombre(), actualizado.getRol());
         return mapper.toResponse(actualizado);
     }
 
@@ -110,11 +116,13 @@ public class UsuarioService {
     public void eliminar(Long id) {
         log.info("Intentando eliminar usuario con ID: {}", id);
         if (!repository.existsById(id)) {
-            log.error("Error al eliminar: Usuario con ID {} no existe", id);
-            throw new ResourceNotFoundException("Usuario no encontrado con el ID: " + id);
+            log.error("No se puede eliminar. Usuario con ID {} no existe", id);
+            throw new ResourceNotFoundException(
+                String.format("No se puede eliminar. El usuario con ID '%d' no existe en el sistema.", id)
+            );
         }
         // Elimina el usuario de la base de datos
         repository.deleteById(id);
-        log.info("Usuario eliminado correctamente");
+        log.info("Usuario con ID {} eliminado correctamente de la base de datos", id);
     }
 }
